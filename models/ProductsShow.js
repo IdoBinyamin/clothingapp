@@ -2,7 +2,12 @@ import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
 import React from 'react';
 import StyledButton from '../Ui/StyledButton';
 import { useSelector, useDispatch } from 'react-redux';
-import { addShirt, addPants, addShoe } from '../store/completeSet';
+import {
+  addShirt,
+  addPants,
+  addShoe,
+  progressCounter,
+} from '../store/completeSet';
 import { useNavigation } from '@react-navigation/native';
 
 export default function ProductsShow({
@@ -13,33 +18,37 @@ export default function ProductsShow({
   isSizesShow,
 }) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const setComplition = useSelector(
     (state) => state.fullClothingSet.completeSet
   );
-  const dispatch = useDispatch();
 
-  const addItem = (p) => {
+  const addItem = (p, choosenSize) => {
     if (p.type === 'shirt') {
-      dispatch(addShirt({ id: p.id }));
+      dispatch(addShirt([p.brand, p.itemColor, choosenSize]));
+      dispatch(progressCounter());
     }
     if (p.type === 'pants') {
-      dispatch(addPants({ id: p.id }));
+      dispatch(addPants([p.brand, p.itemColor, choosenSize]));
+      dispatch(progressCounter());
     }
     if (p.type === 'shoes') {
-      dispatch(addShoe({ id: p.id }));
+      dispatch(addShoe([p.brand, p.itemColor, choosenSize]));
+      dispatch(progressCounter());
     }
     navigation.goBack();
   };
-  const isProductChoose = (p, size) => {
-    console.log('you sure that is youre item?', p.brand, p.itemColor, size);
+
+  const isProductChoose = (p, choosenSize) => {
     Alert.alert(
       'You want this item?',
-      `brand: ${p.brand}, color: ${p.itemColor}, size: ${size}`,
+      `brand: ${p.brand}, color: ${p.itemColor}, size: ${choosenSize}`,
       [
         {
           text: 'Yes',
           onPress: () => {
-            addItem(p);
+            addItem(p, choosenSize);
           },
         },
         { text: 'No', onPress: isSizesShow },
@@ -68,6 +77,7 @@ export default function ProductsShow({
                   onPress={() =>
                     choosingSizeHandler({
                       name: p.name,
+                      type: p.type,
                       brand: p.brand,
                       itemColor: p.colors[colorsIndex],
                       sizes: [...p.sizes],
@@ -122,6 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sizesButtons: {
+    backgroundColor: ' rgba(1, 118, 255, 1)',
     borderRadius: 5,
     borderWidth: 1,
     marginLeft: 3,

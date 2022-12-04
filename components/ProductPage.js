@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { useState } from 'react';
 import ProductsShow from '../models/ProductsShow';
 
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
-    backgroundColor: 'yellow',
+    backgroundColor: 'rgba(200, 130, 270, 1)',
     alignItems: 'center',
   },
   headlineContainer: {
