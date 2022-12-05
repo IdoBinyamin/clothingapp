@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
-    backgroundColor: 'rgba(200, 130, 270, 1)',
     alignItems: 'center',
   },
   headlineContainer: {

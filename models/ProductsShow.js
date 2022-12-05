@@ -6,7 +6,6 @@ import {
   addShirt,
   addPants,
   addShoe,
-  progressCounter,
 } from '../store/completeSet';
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,22 +19,17 @@ export default function ProductsShow({
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const setComplition = useSelector(
-    (state) => state.fullClothingSet.completeSet
-  );
+
 
   const addItem = (p, choosenSize) => {
     if (p.type === 'shirt') {
       dispatch(addShirt([p.brand, p.itemColor, choosenSize]));
-      dispatch(progressCounter());
     }
     if (p.type === 'pants') {
       dispatch(addPants([p.brand, p.itemColor, choosenSize]));
-      dispatch(progressCounter());
     }
     if (p.type === 'shoes') {
       dispatch(addShoe([p.brand, p.itemColor, choosenSize]));
-      dispatch(progressCounter());
     }
     navigation.goBack();
   };

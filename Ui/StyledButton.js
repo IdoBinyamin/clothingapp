@@ -4,7 +4,7 @@ import React from 'react';
 export default function StyledButton({ style, onPress, text, textStyle }) {
   return (
     <TouchableOpacity style={[styles.buttonContainer, style]} onPress={onPress}>
-      <Text style={textStyle}>{text}</Text>
+      <Text style={styles.textStyle}>{text}</Text>
     </TouchableOpacity>
   );
 }
@@ -16,5 +16,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     justifyContent: 'center',
+  },
+  textStyle: {
+    color: 'white',
   },
 });

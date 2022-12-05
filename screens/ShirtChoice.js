@@ -1,36 +1,19 @@
 import { StyleSheet } from 'react-native';
 import React from 'react';
 import ProductPage from '../components/ProductPage';
+import { useSelector } from 'react-redux';
 
 export default function ShirtChoice({ navigation }) {
-  const shirts = [
-    {
-      id: 476,
-      type: 'shirt',
-      name: 'sr_dwsa',
-      colors: ['#928', 'red'],
-      sizes: ['s', 'm'],
-      brand: 'hollister',
-    },
-    {
-      id: 4123,
-      type: 'shirt',
-      name: 'sr_13',
-      colors: ['blue', 'gray', '#246'],
-      sizes: ['s', 'm', 'xl'],
-      brand: 'boss',
-    },
-    {
-      id: 234,
-      type: 'shirt',
-      name: 'sr_dsa',
-      colors: ['red', 'green'],
-      sizes: ['m', 'xl'],
-      brand: 'adidas',
-    },
-  ];
+  const products = useSelector((state) => state.products);
+  const productsList = products.products.results;
 
-  return <ProductPage products={shirts} />;
+  return (
+    <ProductPage
+      products={productsList.filter((p) => {
+        return p.type === 'shirt';
+      })}
+    />
+  );
 }
 
 const styles = StyleSheet.create({});

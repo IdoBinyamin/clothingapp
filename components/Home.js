@@ -1,8 +1,9 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import StyledButton from '../Ui/StyledButton';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as Progress from 'react-native-progress';
+import { getProductsFetch } from '../store/actins';
 
 export default function Home({ navigation }) {
   const user = {
@@ -20,9 +21,11 @@ export default function Home({ navigation }) {
 
   const moveTooSuccessScreen = () => {
     navigation.navigate('success');
-    console.log(setComplition);
-    console.log(setComplitionAmount);
   };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProductsFetch());
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -31,7 +34,7 @@ export default function Home({ navigation }) {
         <Text style={{ fontSize: 18 }}>Choose a full set to seccess!</Text>
       </View>
       <View style={styles.progressBarContainer}>
-        {/* <Text>Progress bar</Text> */}
+        <Text>Progress bar</Text>
         <Progress.Bar progress={setProgressCounter} width={300} height={50} />
       </View>
 
@@ -76,7 +79,6 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(200, 130, 270, 1)',
     alignItems: 'center',
   },
   header: {
