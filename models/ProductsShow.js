@@ -2,11 +2,7 @@ import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
 import React from 'react';
 import StyledButton from '../Ui/StyledButton';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  addShirt,
-  addPants,
-  addShoe,
-} from '../store/completeSet';
+import { addShirt, addPants, addShoe } from '../store/completeSet';
 import { useNavigation } from '@react-navigation/native';
 
 export default function ProductsShow({
@@ -18,8 +14,6 @@ export default function ProductsShow({
 }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
-
 
   const addItem = (p, choosenSize) => {
     if (p.type === 'shirt') {
@@ -67,7 +61,12 @@ export default function ProductsShow({
               {p.colors.map((c, colorsIndex) => (
                 <StyledButton
                   key={colorsIndex}
-                  style={{ backgroundColor: c, width: 70, marginRight: 3 }}
+                  style={{
+                    backgroundColor: c,
+                    width: 70,
+                    height: 35,
+                    marginRight: 3,
+                  }}
                   onPress={() =>
                     choosingSizeHandler({
                       name: p.name,
@@ -90,7 +89,7 @@ export default function ProductsShow({
               style={styles.sizesButtons}
               key={sizesIndex}
               text={s.toString()}
-              textStyle={{ color: 'black' }}
+              textStyle={{ color: 'white' }}
               onPress={() => isProductChoose(choosenProduct, s)}
             />
           ))}
@@ -131,6 +130,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginLeft: 3,
     width: 35,
+    height: 50,
     alignItems: 'center',
   },
 });

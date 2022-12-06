@@ -1,9 +1,14 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, Image, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect } from 'react';
 import StyledButton from '../Ui/StyledButton';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Progress from 'react-native-progress';
 import { getProductsFetch } from '../store/actins';
+import {
+  Ionicons,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from 'react-native-vector-icons';
 
 export default function Home({ navigation }) {
   const user = {
@@ -43,17 +48,26 @@ export default function Home({ navigation }) {
           text={'Shirts'}
           onPress={() => navigation.navigate('Shirts')}
           style={styles.buttonStyle}
+          icon={<Ionicons name={'shirt'} size={30} color="black" />}
         />
         <StyledButton
           text={'Pants'}
           onPress={() => navigation.navigate('Pants')}
           style={styles.buttonStyle}
+          icon={<Image source={require('../assets/pants.png')} />}
         />
 
         <StyledButton
           text={'Shoes'}
           onPress={() => navigation.navigate('Shoes')}
           style={styles.buttonStyle}
+          icon={
+            <MaterialCommunityIcons
+              name={'shoe-sneaker'}
+              size={35}
+              color="black"
+            />
+          }
         />
       </View>
       <View style={styles.progressContainer}>
@@ -69,9 +83,17 @@ export default function Home({ navigation }) {
           )}
         </Text>
       </View>
-      <Text style={{ top: 15, fontSize: 20, fontWeight: 'bold' }}>
-        Sets amount: {setComplitionAmount}
-      </Text>
+      <View style={{ flexDirection: 'row', marginTop: 15 }}>
+        <FontAwesome
+          style={{ marginRight: 5 }}
+          name={'shopping-bag'}
+          size={40}
+          color={'black'}
+        />
+        <Text style={{ top: 15, fontSize: 20, fontWeight: 'bold' }}>
+          You'r sets amount: {setComplitionAmount}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -112,6 +134,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: 'rgba(1, 118, 255, 1)',
     marginRight: 5,
-    paddingHorizontal: 26,
+    height: 80,
+    paddingLeft: 30,
   },
 });

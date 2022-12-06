@@ -27,7 +27,6 @@ export default function Success({ navigation }) {
     dispatch(addShoe(''));
 
     navigation.navigate('home');
-    console.log('work');
   };
   return (
     <View style={{ marginHorizontal: 15 }}>
