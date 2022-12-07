@@ -6,7 +6,7 @@ const fullSet = createSlice({
     completeSet: {
       shirt: '',
       pants: '',
-      shoe: '',
+      shoes: '',
     },
     successSets: 0,
     progressCounter: 0,
@@ -24,11 +24,11 @@ const fullSet = createSlice({
       }
       state.completeSet.pants = action.payload;
     },
-    addShoe(state, action) {
-      if (state.completeSet.shoe === '') {
+    addShoes(state, action) {
+      if (state.completeSet.shoes === '') {
         state.progressCounter += 0.3333;
       }
-      state.completeSet.shoe = action.payload;
+      state.completeSet.shoes = action.payload;
     },
     resetProgressCounter(state) {
       state.progressCounter = 0;
@@ -41,7 +41,7 @@ const fullSet = createSlice({
 
 export const addShirt = fullSet.actions.addShirt;
 export const addPants = fullSet.actions.addPants;
-export const addShoe = fullSet.actions.addShoe;
+export const addShoes = fullSet.actions.addShoes;
 export const resetProgressCounter = fullSet.actions.resetProgressCounter;
 export const countSuccessSets = fullSet.actions.countSuccessSets;
 export default fullSet.reducer;

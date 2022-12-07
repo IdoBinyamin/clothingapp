@@ -11,6 +11,8 @@ import {
 } from 'react-native-vector-icons';
 
 export default function Home({ navigation }) {
+  const dispatch = useDispatch();
+
   const user = {
     name: 'Buddy',
   };
@@ -27,7 +29,7 @@ export default function Home({ navigation }) {
   const moveTooSuccessScreen = () => {
     navigation.navigate('success');
   };
-  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getProductsFetch());
   }, []);
@@ -36,39 +38,50 @@ export default function Home({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.header}>Welcome {user.name}</Text>
       <View style={styles.pageContainer}>
-        <Text style={{ fontSize: 18 }}>Choose a full set to seccess!</Text>
+        <Text style={{ fontSize: 18 }}>Choose a full set to success!</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <Text>Progress bar</Text>
-        <Progress.Bar progress={setProgressCounter} width={300} height={50} />
+        <Progress.Bar
+          progress={setProgressCounter}
+          width={300}
+          height={50}
+          borderRadius={100}
+        />
       </View>
 
       <View style={styles.buttonsContainer}>
-        <StyledButton
-          text={'Shirts'}
-          onPress={() => navigation.navigate('Shirts')}
-          style={styles.buttonStyle}
-          icon={<Ionicons name={'shirt'} size={30} color="black" />}
-        />
-        <StyledButton
-          text={'Pants'}
-          onPress={() => navigation.navigate('Pants')}
-          style={styles.buttonStyle}
-          icon={<Image source={require('../assets/pants.png')} />}
-        />
+        {!setComplition.shirt && (
+          <StyledButton
+            text={'Shirts'}
+            onPress={() => navigation.navigate('Shirts')}
+            style={styles.buttonStyle}
+            icon={<Ionicons name={'shirt'} size={30} color="black" />}
+          />
+        )}
+        {!setComplition.pants && (
+          <StyledButton
+            text={'Pants'}
+            onPress={() => navigation.navigate('Pants')}
+            style={styles.buttonStyle}
+            icon={<Image source={require('../assets/pants.png')} />}
+          />
+        )}
 
-        <StyledButton
-          text={'Shoes'}
-          onPress={() => navigation.navigate('Shoes')}
-          style={styles.buttonStyle}
-          icon={
-            <MaterialCommunityIcons
-              name={'shoe-sneaker'}
-              size={35}
-              color="black"
-            />
-          }
-        />
+        {!setComplition.shoes && (
+          <StyledButton
+            text={'Shoes'}
+            onPress={() => navigation.navigate('Shoes')}
+            style={styles.buttonStyle}
+            icon={
+              <MaterialCommunityIcons
+                name={'shoe-sneaker'}
+                size={35}
+                color="black"
+              />
+            }
+          />
+        )}
       </View>
       <View style={styles.progressContainer}>
         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -76,24 +89,26 @@ export default function Home({ navigation }) {
         </Text>
         <Text>
           {' '}
-          {setComplition.shirt && setComplition.pants && setComplition.shoe ? (
-            <Button title="Comlete" onPress={moveTooSuccessScreen} />
+          {setComplition.shirt && setComplition.pants && setComplition.shoes ? (
+            <Button title="Complete" onPress={moveTooSuccessScreen} />
           ) : (
             'Missing clothes'
           )}
         </Text>
       </View>
-      <View style={{ flexDirection: 'row', marginTop: 15 }}>
-        <FontAwesome
-          style={{ marginRight: 5 }}
-          name={'shopping-bag'}
-          size={40}
-          color={'black'}
-        />
-        <Text style={{ top: 15, fontSize: 20, fontWeight: 'bold' }}>
-          You'r sets amount: {setComplitionAmount}
-        </Text>
-      </View>
+      {setComplitionAmount !== 0 && (
+        <View style={{ flexDirection: 'row', marginTop: 15 }}>
+          <FontAwesome
+            style={{ marginRight: 5 }}
+            name={'shopping-bag'}
+            size={40}
+            color={'black'}
+          />
+          <Text style={{ top: 15, fontSize: 20, fontWeight: 'bold' }}>
+            Your full sets amount: {setComplitionAmount}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }

@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import StyledButton from '../Ui/StyledButton';
-import { useSelector, useDispatch } from 'react-redux';
-import { addShirt, addPants, addShoe } from '../store/completeSet';
+import { useDispatch } from 'react-redux';
+import { addShirt, addPants, addShoes } from '../store/completeSet';
 import { useNavigation } from '@react-navigation/native';
+import SizesView from './SizesView';
+import SearchBar from './SearchBar';
 
 export default function ProductsShow({
   products,
@@ -17,13 +19,19 @@ export default function ProductsShow({
 
   const addItem = (p, choosenSize) => {
     if (p.type === 'shirt') {
-      dispatch(addShirt([p.brand, p.itemColor, choosenSize]));
+      dispatch(
+        addShirt({ brand: p.brand, color: p.itemColor, size: choosenSize })
+      );
     }
     if (p.type === 'pants') {
-      dispatch(addPants([p.brand, p.itemColor, choosenSize]));
+      dispatch(
+        addPants({ brand: p.brand, color: p.itemColor, size: choosenSize })
+      );
     }
     if (p.type === 'shoes') {
-      dispatch(addShoe([p.brand, p.itemColor, choosenSize]));
+      dispatch(
+        addShoes({ brand: p.brand, color: p.itemColor, size: choosenSize })
+      );
     }
     navigation.goBack();
   };
@@ -43,11 +51,69 @@ export default function ProductsShow({
       ]
     );
   };
+  const [serachType, setSerachType] = useState('name');
+  const [items, setItems] = useState(products);
+
+  const serachHandler = (event) => {
+    let serchedProducts;
+    if (serachType === 'name') {
+      serchedProducts = products.filter((p) => {
+        return p.name.toLowerCase().includes(event.toLowerCase());
+      });
+    }
+    if (serachType === 'brand') {
+      serchedProducts = products.filter((p) => {
+        return p.brand.toLowerCase().includes(event.toLowerCase());
+      });
+    }
+    // if (serachType === 'color') {
+    //   serchedProducts = products.filter((p) => {
+    //     return p.color.toLowerCase().includes(event.toLowerCase());
+    //   });
+    // }
+    // if (serachType === 'size') {
+    //   serchedProducts = products.filter((p) => {
+    //     return p.size.toString().includes(event.toLowerCase());
+    //   });
+    // }
+    setItems(serchedProducts);
+  };
 
   return (
     <>
+      <SearchBar
+        // products={products}
+        serachHandler={serachHandler}
+        serachType={serachType}
+      />
+      <View style={styles.searchButtonsChoice}>
+        <Text>Swipe search type: </Text>
+        <StyledButton
+          text={'name'}
+          style={styles.searchOptions}
+          onPress={() => setSerachType('name')}
+        />
+        <StyledButton
+          text={'brand'}
+          style={styles.searchOptions}
+          onPress={() => setSerachType('brand')}
+        />
+        {/* <StyledButton
+          text={'color'}
+          style={styles.searchOptions}
+          onPress={() => setSerachType('color')}
+        />
+        <StyledButton
+          text={'size'}
+          style={styles.searchOptions}
+          onPress={() => setSerachType('size')}
+        /> */}
+      </View>
+      <Text style={{ marginBottom: 5, marginTop: 5 }}>
+        There is {items.length} items too choose from
+      </Text>
       <ScrollView style={styles.itemsList}>
-        {products.map((p, itemIndex) => (
+        {items.map((p, itemIndex) => (
           <View key={itemIndex} style={styles.itemContainer}>
             <Text>
               name: {p.name}
@@ -83,23 +149,28 @@ export default function ProductsShow({
         ))}
       </ScrollView>
       {isChooseSize && (
-        <View style={styles.sizesButtonsContainer}>
-          {choosenProduct.sizes.map((s, sizesIndex) => (
-            <StyledButton
-              style={styles.sizesButtons}
-              key={sizesIndex}
-              text={s.toString()}
-              textStyle={{ color: 'white' }}
-              onPress={() => isProductChoose(choosenProduct, s)}
-            />
-          ))}
-        </View>
+        <SizesView
+          choosenProduct={choosenProduct}
+          isProductChoose={isProductChoose}
+        />
       )}
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  searchButtonsChoice: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  searchOptions: {
+    marginRight: 5,
+    width: 50,
+    borderRadius: 10,
+    alignItems: 'center',
+    backgroundColor: 'rgba(1, 118, 255, 1)',
+  },
   itemsList: {
     flex: 3,
   },
@@ -115,22 +186,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginRight: 5,
     marginBottom: 5,
-  },
-  sizesButtonsContainer: {
-    flex: 0.5,
-    top: 50,
-    height: 50,
-    width: 350,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  sizesButtons: {
-    backgroundColor: ' rgba(1, 118, 255, 1)',
-    borderRadius: 5,
-    borderWidth: 1,
-    marginLeft: 3,
-    width: 35,
-    height: 50,
-    alignItems: 'center',
   },
 });
