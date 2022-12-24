@@ -51,6 +51,7 @@ export default function ProductsShow({
       ]
     );
   };
+
   const [serachType, setSerachType] = useState('name');
   const [items, setItems] = useState(products);
 
@@ -81,11 +82,7 @@ export default function ProductsShow({
 
   return (
     <>
-      <SearchBar
-        // products={products}
-        serachHandler={serachHandler}
-        serachType={serachType}
-      />
+      <SearchBar serachHandler={serachHandler} serachType={serachType} />
       <View style={styles.searchButtonsChoice}>
         <Text>Swipe search type: </Text>
         <StyledButton
@@ -98,16 +95,16 @@ export default function ProductsShow({
           style={styles.searchOptions}
           onPress={() => setSerachType('brand')}
         />
-        {/* <StyledButton
+        <StyledButton
           text={'color'}
           style={styles.searchOptions}
-          onPress={() => setSerachType('color')}
+          // onPress={() => setSerachType('color')}
         />
         <StyledButton
           text={'size'}
           style={styles.searchOptions}
-          onPress={() => setSerachType('size')}
-        /> */}
+          // onPress={() => setSerachType('size')}
+        />
       </View>
       <Text style={{ marginBottom: 5, marginTop: 5 }}>
         There is {items.length} items too choose from
